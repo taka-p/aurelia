@@ -12,7 +12,13 @@ module.exports = function(modules) {
     comments: false,
     compact: false,
     code: true,
-    presets: [ ['es2015', { loose: true, modules: modules }], 'stage-1'],
+    presets: [
+      [
+        'es2015',
+        { loose: true, modules: modules }
+      ],
+      'stage-1'
+    ],
     plugins: [
       'syntax-flow',
       'transform-decorators-legacy',

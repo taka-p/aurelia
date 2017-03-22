@@ -1,16 +1,19 @@
-//import {computedFrom} from 'aurelia-framework';
+import {inject} from 'aurelia-framework';    // 追加
+import {Account} from 'services/api-facade'             // 追加
 
+@inject(Account)                             // 追加
 export class Welcome {
   heading = 'Welcome to the Aurelia Navigation App!';
   firstName = 'John';
   lastName = 'Doe';
   previousValue = this.fullName;
 
-  //Getters can't be directly observed, so they must be dirty checked.
-  //However, if you tell Aurelia the dependencies, it no longer needs to dirty check the property.
-  //To optimize by declaring the properties that this getter is computed from, uncomment the line below
-  //as well as the corresponding import above.
-  //@computedFrom('firstName', 'lastName')
+  // コンストラクタを追加し、注入されたアカウント情報を取得する
+  constructor(account) {
+    this.firstName = account.firstName;
+    this.lastName = account.lastName;
+  }
+
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
   }

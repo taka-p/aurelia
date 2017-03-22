@@ -5,6 +5,8 @@ var exportSrvRoot = 'export/';
 module.exports = {
   root: appRoot,
   source: appRoot + '**/*.js',
+  vendorSRC: 'vendor/entry.js',
+  vendorDist: 'vendor/',
   html: appRoot + '**/*.html',
   css: appRoot + '**/*.css',
   style: 'styles/**/*.css',
