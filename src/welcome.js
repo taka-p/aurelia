@@ -1,7 +1,8 @@
-import {inject} from 'aurelia-framework';    // 追加
-import {Account} from 'services/api-facade'             // 追加
+import {inject} from 'aurelia-framework';
+//import {HttpClient} from 'aurelia-fetch-client';
+import ApiClient from './services/api';
 
-@inject(Account)                             // 追加
+@inject(ApiClient)
 export class Welcome {
   heading = 'Welcome to the Aurelia Navigation App!';
   firstName = 'John';
@@ -9,9 +10,16 @@ export class Welcome {
   previousValue = this.fullName;
 
   // コンストラクタを追加し、注入されたアカウント情報を取得する
-  constructor(account) {
-    this.firstName = account.firstName;
-    this.lastName = account.lastName;
+  constructor(api) {
+    this.api = api;
+  }
+
+  bind() {
+    this.api.post('/api/hello', {
+      name: this.firstName + this.lastName
+    }).then(json => {
+      console.log(json);
+    });
   }
 
   get fullName() {

@@ -1,6 +1,6 @@
-import express from "express"
-import bodyParser from "body-parser"
-import serveStatic from "serve-static"
+import express from 'express'
+import bodyParser from 'body-parser'
+import serveStatic from 'serve-static'
 import ECT from 'ect'
 import session from 'express-session'
 
@@ -36,6 +36,15 @@ let accounts = {
     password: 'password'
   }
 };
+
+/* cors */
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:1234');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  next();
+});
 
 /**
  * ログイン画面とログイン処理のアクション
@@ -79,6 +88,9 @@ app.use('/api/*', (req, res, next) => {
   if (!req.session.account) {
     return res.status(401).send('login required');
   }
+  if (!req.headers.authorization) {
+    return res.json({ error: 'No credentials sent!' });
+  }
   next();
 });
 
@@ -100,6 +112,12 @@ app.get('/api/hello', (req, res) => {
   });
 });
 
+app.post('/api/hello', (req, res) => {
+  res.json({
+    reply: `hello ${req.body.name}!`
+  });
+});
+
 app.listen(port, () => {
-  console.log("listening http on port " + port)
+  console.log('listening http on port ' + port)
 });

@@ -3,12 +3,13 @@
 System.register(['bootstrap', 'services/user-auth'], function (_export, _context) {
   "use strict";
 
-  var UserAuth;
+  var UserAuth, isLoggedIn;
   function configure(aurelia) {
     aurelia.use.standardConfiguration().developmentLogging();
 
     aurelia.start().then(function (a) {
-      return a.setRoot();
+      var rootComponent = isLoggedIn() ? 'app' : 'login';
+      a.setRoot(rootComponent, document.body);
     });
   }
 
@@ -18,7 +19,11 @@ System.register(['bootstrap', 'services/user-auth'], function (_export, _context
     setters: [function (_bootstrap) {}, function (_servicesUserAuth) {
       UserAuth = _servicesUserAuth.UserAuth;
     }],
-    execute: function () {}
+    execute: function () {
+      isLoggedIn = function isLoggedIn() {
+        return true;
+      };
+    }
   };
 });
 //# sourceMappingURL=main.js.map
